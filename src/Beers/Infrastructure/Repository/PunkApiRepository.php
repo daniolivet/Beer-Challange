@@ -22,4 +22,12 @@ final class PunkApiRepository implements IPunkApiRepository
         return $data;
     }
 
+    public function getBeerById( int $id ) {
+        
+        $response = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers/$id" );
+        $data = $response->toArray();
+
+        return $data;
+    }
+
 }

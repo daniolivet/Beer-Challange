@@ -2,3 +2,10 @@ beer_filter_by_food:
   path: /api/beers/filterByFood
   controller: App\Beers\Infrastructure\Controller\FilterByFoodController
   methods: [ GET ]
+
+beer_by_id:
+  path: /api/beers/{id}
+  controller: App\Beers\Infrastructure\Controller\GetBeerById
+  methods: [ GET ]
+  requirements:
+      id: \d+
