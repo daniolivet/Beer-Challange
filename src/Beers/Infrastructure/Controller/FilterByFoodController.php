@@ -13,7 +13,11 @@ final class FilterByFoodController extends AbstractController {
     ) {}
 
     public function __invoke( Request $request ) {
-        $beers = ( $this->useCase )( 'blue cheese' );        
+        $foodName = $request->query->get('food');
+
+        
+
+        $beers = ( $this->useCase )( $foodName );        
 
         return $this->json([]);
     }
