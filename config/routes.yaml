@@ -1,1 +1,4 @@
-
+beer_filter_by_food:
+  path: /api/beers/filterByFood
+  controller: App\Beers\Infrastructure\Controller\FilterByFoodController
+  methods: [ GET ]
