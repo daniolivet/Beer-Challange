@@ -1,3 +1,13 @@
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+    path: /api/doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger }
+
 beer_filter_by_food:
   path: /api/beers/filterByFood
   controller: App\Beers\Infrastructure\Controller\FilterByFoodController

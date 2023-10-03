@@ -1,0 +1,52 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Beer App
+            description: The Beer Matcher API is a powerful tool for beer enthusiasts and food lovers alike. It provides access to a vast selection of beers, sourced from the PunkApi database, and allows users to discover the perfect beer pairings for their favorite dishes.
+            version: 1.0.0
+        paths:
+          /api/beers/filterByFood?food={ame}:
+            get:
+                tags:
+                 - Beers
+                summary: Get food-related beer
+                description: Search for beers that pair harmoniously with a specific type of food. Simply provide a food keyword, and the API will return a list of matching beers, each with detailed information about its flavor profile, ABV (Alcohol by Volume), and more.
+                operationId: FilterByFood
+                parameters:
+                 - name: food
+                   in: query
+                   description: Food name
+                   required: true
+                   schema:
+                     type: string
+                     example: cheese
+                responses:
+                 '200':
+                   description: Succesfull
+
+          /api/beers/{id}:
+            get:
+                tags:
+                 - Beers
+                summary: Get beer by specific ID
+                description: Retrieve detailed information about a specific beer by providing its unique ID. This endpoint offers in-depth insights into the selected beer, including its name, description, and taste characteristics.
+                operationId: GetBeerById
+                parameters:
+                 - name: id
+                   in: path
+                   description: beer Id
+                   required: true
+                   schema:
+                     type: integer
+                     format: int64
+                     example: 1
+                responses:
+                 '200':
+                   description: Succesfull
+        
+            
+    areas:
+        path_patterns: # an array of regexps (document only routes under /api, except /api/doc)
+            - ^/api(?!/doc$)
+        host_patterns: # document only routes with a host of the form api.*
+            - ^api\. # Accepts routes under /api except /api/doc
