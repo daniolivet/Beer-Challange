@@ -16,29 +16,55 @@ final class PunkApiRepository implements IPunkApiRepository
     ) {
     }
 
-    public function getBeerByFood( string $food )
+    /**
+     * Get beer by food
+     * 
+     * @param string $food
+     * @throws \App\Beers\Domain\Exception\BeersException
+     * @throws \App\Beers\Domain\Exception\BeersNotFoundException
+     * @return array
+     */
+    public function getBeerByFood( string $food ) : array
     {
-        $response = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers?food=$food" );
-        $statusCode = $response->getStatusCode();
-        $responseData = $response->toArray(false);
+        $response     = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers?food=$food" );
+        $statusCode   = $response->getStatusCode();
+        $responseData = $response->toArray( false );
 
-        if( Response::HTTP_OK !== $statusCode ) {
+        if ( Response::HTTP_OK !== $statusCode ) {
             throw new BeersException( $responseData, $statusCode );
         }
 
-        if( empty($responseData) ) {
+        if ( empty( $responseData ) ) {
             throw new BeersNotFoundException();
         }
 
         return $responseData;
     }
 
-    public function getBeerById( int $id ) {
-        
-        $response = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers/$id" );
-        $data = $response->toArray();
+    /**
+     * Get beer by id
+     * 
+     * @param int $id
+     * @throws \App\Beers\Domain\Exception\BeersException
+     * @throws \App\Beers\Domain\Exception\BeersNotFoundException
+     * @return array
+     */
+    public function getBeerById( int $id ) : array
+    {
 
-        return $data;
+        $response     = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers/$id" );
+        $statusCode   = $response->getStatusCode();
+        $responseData = $response->toArray( false );
+
+        if ( Response::HTTP_OK !== $statusCode ) {
+            throw new BeersException( $responseData, $statusCode );
+        }
+
+        if ( empty( $responseData ) ) {
+            throw new BeersNotFoundException();
+        }
+
+        return $responseData;
     }
 
 }

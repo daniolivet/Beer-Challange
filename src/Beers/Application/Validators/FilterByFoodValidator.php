@@ -8,6 +8,10 @@ final class FilterByFoodValidator {
 
     #[Assert\NotBlank()]
     #[Assert\NoSuspiciousCharacters ]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    ) ]
     #[Assert\Length(
         min: 1,
         max: 70,

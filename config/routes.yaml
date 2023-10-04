@@ -9,7 +9,7 @@ app.swagger:
     defaults: { _controller: nelmio_api_doc.controller.swagger }
 
 beer_filter_by_food:
-  path: /api/beers/filterByFood
+  path: /api/beers/filterByFood?food={name}
   controller: App\Beers\Infrastructure\Controller\FilterByFoodController
   methods: [ GET ]
 
@@ -17,5 +17,3 @@ beer_by_id:
   path: /api/beers/{id}
   controller: App\Beers\Infrastructure\Controller\GetBeerById
   methods: [ GET ]
-  requirements:
-      id: \d+

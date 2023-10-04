@@ -2,9 +2,10 @@
 
 namespace App\Utils;
 
+use App\Beers\Domain\Interface\IGlobalValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class GlobalValidator
+final class GlobalValidator implements IGlobalValidator
 {
 
     public function __construct(

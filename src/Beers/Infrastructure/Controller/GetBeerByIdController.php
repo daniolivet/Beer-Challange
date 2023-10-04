@@ -2,27 +2,26 @@
 
 namespace App\Beers\Infrastructure\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Beers\Application\FilterByFoodUseCase;
+use App\Beers\Application\Validators\GetBeerByIdValidator;
 use App\Beers\Domain\Interface\IGlobalValidator;
-use App\Beers\Application\Validators\FilterByFoodValidator;
+use App\Beers\Application\GetBeerByIdUseCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class FilterByFoodController extends AbstractController
+final class GetBeerByIdController extends AbstractController
 {
 
     public function __construct(
-        private readonly FilterByFoodUseCase $useCase,
+        private readonly GetBeerByIdUseCase $useCase,
         private readonly IGlobalValidator $globalValidator
     ) {
     }
 
     public function __invoke( Request $request )
     {
-        $foodName = $request->query->get( 'food' );
+        $beerId = $request->query->get('id');
 
-        $validateObj = new FilterByFoodValidator( $foodName );
+        $validateObj = new GetBeerByIdValidator( $beerId );
 
         $errors = $this->globalValidator->validate( $validateObj );
         if ( ! empty( $errors ) ) {
@@ -33,9 +32,9 @@ final class FilterByFoodController extends AbstractController
             ], Response::HTTP_BAD_REQUEST );
         }
 
-        $beers = ( $this->useCase )( $foodName );
-
-        return $this->json( $beers );
+        $beer = ( $this->useCase )( $beerId );
+        
+        return $this->json( $beer );
     }
 
 }
