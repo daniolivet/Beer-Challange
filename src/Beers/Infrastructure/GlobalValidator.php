@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Utils;
+namespace App\Beers\Infrastructure;
 
-use App\Beers\Domain\Interface\IGlobalValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Beers\Domain\Interface\IGlobalValidator;
 
 final class GlobalValidator implements IGlobalValidator
 {

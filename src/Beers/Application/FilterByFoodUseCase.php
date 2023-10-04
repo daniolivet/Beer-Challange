@@ -2,7 +2,8 @@
 
 namespace App\Beers\Application;
 
-use App\Beers\Domain\IPunkApiRepository;
+use Symfony\Component\HttpFoundation\Response;
+use App\Beers\Domain\Interface\IPunkApiRepository;
 use App\Beers\Domain\Interface\IBeersExceptionHandler;
 
 final class FilterByFoodUseCase
@@ -14,6 +15,10 @@ final class FilterByFoodUseCase
     ) {
     }
 
+    /**
+     * @param string $food
+     * @return array
+     */
     public function __invoke( string $food ): array
     {
         try {

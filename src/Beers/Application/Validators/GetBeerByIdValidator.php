@@ -13,9 +13,9 @@ final class GetBeerByIdValidator {
         type: 'integer',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     ) ]
-    public string $id;
+    public int $id;
 
-    public function __construct( string $id )
+    public function __construct( int $id )
     {
         $this->id = $id;
     }

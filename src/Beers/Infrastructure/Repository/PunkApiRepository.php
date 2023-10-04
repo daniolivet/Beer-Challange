@@ -2,11 +2,11 @@
 
 namespace App\Beers\Infrastructure\Repository;
 
-use App\Beers\Domain\IPunkApiRepository;
-use App\Beers\Domain\Exception\BeersException;
+use App\Beers\Domain\Interface\IPunkApiRepository;
 use Symfony\Component\HttpFoundation\Response;
+use App\Beers\Domain\Exceptions\BeersException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use App\Beers\Domain\Exception\BeersNotFoundException;
+use App\Beers\Domain\Exceptions\BeersNotFoundException;
 
 final class PunkApiRepository implements IPunkApiRepository
 {
@@ -20,8 +20,8 @@ final class PunkApiRepository implements IPunkApiRepository
      * Get beer by food
      * 
      * @param string $food
-     * @throws \App\Beers\Domain\Exception\BeersException
-     * @throws \App\Beers\Domain\Exception\BeersNotFoundException
+     * @throws \App\Beers\Domain\Exceptions\BeersException
+     * @throws \App\Beers\Domain\Exceptions\BeersNotFoundException
      * @return array
      */
     public function getBeerByFood( string $food ) : array
@@ -45,8 +45,8 @@ final class PunkApiRepository implements IPunkApiRepository
      * Get beer by id
      * 
      * @param int $id
-     * @throws \App\Beers\Domain\Exception\BeersException
-     * @throws \App\Beers\Domain\Exception\BeersNotFoundException
+     * @throws \App\Beers\Domain\Exceptions\BeersException
+     * @throws \App\Beers\Domain\Exceptions\BeersNotFoundException
      * @return array
      */
     public function getBeerById( int $id ) : array

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Beers\Domain\Exception;
+namespace App\Beers\Domain\Exceptions;
 
 final class BeersException extends \RuntimeException {
 

@@ -3,7 +3,7 @@
 namespace App\Beers\Application;
 
 use App\Beers\Domain\Interface\IBeersExceptionHandler;
-use App\Beers\Domain\IPunkApiRepository;
+use App\Beers\Domain\Interface\IPunkApiRepository;
 
 final class GetBeerByIdUseCase
 {

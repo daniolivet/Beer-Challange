@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Beers\Domain;
+namespace App\Beers\Domain\Interface;
 
 interface IPunkApiRepository {
     public function getBeerByFood( string $food );

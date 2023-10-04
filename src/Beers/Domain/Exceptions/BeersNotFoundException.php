@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Beers\Domain\Exception;
+namespace App\Beers\Domain\Exceptions;
 
 use Symfony\Component\HttpFoundation\Response;
 
