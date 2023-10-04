@@ -14,10 +14,10 @@ final class FilterByFoodValidator {
         minMessage: 'Your food name must be at least {{ limit }} characters long',
         maxMessage: 'Your food name cannot be longer than {{ limit }} characters',
     ) ]
-    public string $foodName;
+    public string $name;
 
-    public function __construct( string $foodName ) {
-        $this->foodName = $foodName;
+    public function __construct( string $name ) {
+        $this->name = $name;
     }
 
 }
