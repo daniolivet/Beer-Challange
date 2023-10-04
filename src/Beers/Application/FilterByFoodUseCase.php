@@ -2,14 +2,15 @@
 
 namespace App\Beers\Application;
 
-use App\Beers\Domain\Exception\BeersException;
 use App\Beers\Domain\IPunkApiRepository;
+use App\Beers\Domain\Interface\IBeersExceptionHandler;
 
 final class FilterByFoodUseCase
 {
 
     public function __construct(
-        private readonly IPunkApiRepository $repository
+        private readonly IPunkApiRepository $repository,
+        private readonly IBeersExceptionHandler $exceptionHandler
     ) {
     }
 
@@ -20,16 +21,20 @@ final class FilterByFoodUseCase
 
             $beers = $this->repository->getBeerByFood( $food );
 
-            return $this->filterBeers( $beers );
+            return [ 
+                'code'    => Response::HTTP_OK,
+                'message' => "Beers successfully found!",
+                'data'    => $this->filterBeers( $beers )
+            ];
 
         } catch ( \RuntimeException $e ) {
 
-            return $this->beersExceptionHandle( $e );
+            return $this->exceptionHandler->beersExceptionHandle( $e );
 
         } catch ( \Exception $e ) {
             return [ 
-                'message' => $e->getMessage(),
-                'code'    => $e->getCode()
+                'code'    => $e->getCode(),
+                'message' => $e->getMessage()
             ];
         }
 
@@ -53,32 +58,6 @@ final class FilterByFoodUseCase
             'image'        => $beer['image_url']
         ], $beers );
 
-    }
-
-    private function beersExceptionHandle( \RuntimeException $e )
-    {
-        if ( method_exists( $e::class, 'getExceptionData' ) ) {
-            $exceptionData = $e->getExceptionData();
-            $response      = [ 
-                'code'    => $exceptionData['statusCode'] ?? $e->getCode(),
-                'message' => $exceptionData['message'] ?? $e->getMessage(),
-            ];
-
-            if( isset( $exceptionData['error'] ) ) {
-                $response['error'] = $exceptionData['error'];
-            }
-
-            if ( isset( $exceptionData['data'] ) ) {
-                $response['data'] = $exceptionData['data'];
-            }
-
-            return $response;
-        }
-
-        return [ 
-            'code'    => $e->getCode(),
-            'message' => $e->getMessage()
-        ];
     }
 
 }
