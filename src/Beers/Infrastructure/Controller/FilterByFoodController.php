@@ -13,6 +13,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class FilterByFoodController extends AbstractController
 {
 
+    /**
+     * @param \App\Beers\Application\FilterByFoodUseCase $useCase
+     * @param \App\Beers\Domain\Interface\IGlobalValidator $globalValidator
+     */
     public function __construct(
         private readonly FilterByFoodUseCase $useCase,
         private readonly IGlobalValidator $globalValidator

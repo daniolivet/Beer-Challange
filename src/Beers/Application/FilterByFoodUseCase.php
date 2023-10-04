@@ -9,6 +9,10 @@ use App\Beers\Domain\Interface\IBeersExceptionHandler;
 final class FilterByFoodUseCase
 {
 
+    /**
+     * @param \App\Beers\Domain\Interface\IPunkApiRepository $repository
+     * @param \App\Beers\Domain\Interface\IBeersExceptionHandler $exceptionHandler
+     */
     public function __construct(
         private readonly IPunkApiRepository $repository,
         private readonly IBeersExceptionHandler $exceptionHandler
@@ -29,7 +33,7 @@ final class FilterByFoodUseCase
             return [ 
                 'code'    => Response::HTTP_OK,
                 'message' => "Beers successfully found!",
-                'data'    => $this->filterBeers( $beers )
+                'data'    => $this->filterBeers( $beers ?? [] )
             ];
 
         } catch ( \RuntimeException $e ) {
@@ -53,6 +57,9 @@ final class FilterByFoodUseCase
      */
     private function filterBeers( array $beers ): array
     {
+        if( empty($beers) ) {
+            return [];
+        }
 
         return array_map( fn( $beer ) => [ 
             'id'           => $beer['id'],

@@ -12,10 +12,14 @@ beer_filter_by_food:
   path: /api/beers/filterByFood
   controller: App\Beers\Infrastructure\Controller\FilterByFoodController
   methods: [ GET ]
+  options:
+    parameters:
+      food:
+        type: string
 
 beer_by_id:
   path: /api/beers/{id}
-  controller: App\Beers\Infrastructure\Controller\GetBeerById
+  controller: App\Beers\Infrastructure\Controller\GetBeerByIdController
   methods: [ GET ]
   requirements:
       id: \d+

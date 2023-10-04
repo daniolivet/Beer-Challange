@@ -2,11 +2,17 @@
 
 namespace App\Beers\Application;
 
-use App\Beers\Domain\Interface\IBeersExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 use App\Beers\Domain\Interface\IPunkApiRepository;
+use App\Beers\Domain\Interface\IBeersExceptionHandler;
 
 final class GetBeerByIdUseCase
 {
+
+    /**
+     * @param \App\Beers\Domain\Interface\IPunkApiRepository $repository
+     * @param \App\Beers\Domain\Interface\IBeersExceptionHandler $exceptionHandler
+     */
     public function __construct(
         private readonly IPunkApiRepository $repository,
         private readonly IBeersExceptionHandler $exceptionHandler
@@ -28,7 +34,7 @@ final class GetBeerByIdUseCase
             return [ 
                 'code'    => Response::HTTP_OK,
                 'message' => "Beers successfully found!",
-                'data'    => $this->filterBeer( $beers )
+                'data'    => $this->filterBeer( $beers[0] ?? [] )
             ];
         } catch ( \RuntimeException $e ) {
 
@@ -41,7 +47,6 @@ final class GetBeerByIdUseCase
             ];
         }
 
-
     }
 
     /**
@@ -52,6 +57,10 @@ final class GetBeerByIdUseCase
      */
     private function filterBeer( array $beer ) : array
     {
+        if( empty($beer) ) {
+            return [];
+        }
+
         return [ 
             'id'           => $beer['id'],
             'name'         => $beer['name'],

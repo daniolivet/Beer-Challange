@@ -6,7 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class FilterByFoodValidator {
 
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(
+        message: 'The param food is required.'
+    )]
     #[Assert\NoSuspiciousCharacters ]
     #[Assert\Type(
         type: 'string',
@@ -18,10 +20,10 @@ final class FilterByFoodValidator {
         minMessage: 'Your food name must be at least {{ limit }} characters long',
         maxMessage: 'Your food name cannot be longer than {{ limit }} characters',
     ) ]
-    public string $name;
+    public ?string $food;
 
-    public function __construct( string $name ) {
-        $this->name = $name;
+    public function __construct( ?string $food ) {
+        $this->food = $food;
     }
 
 }

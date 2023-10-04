@@ -6,7 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class GetBeerByIdValidator {
     
-    #[Assert\NotBlank() ]
+    #[Assert\NotBlank(
+        message: 'The param id is required.'
+    ) ]
     #[Assert\NoSuspiciousCharacters ]
     #[Assert\Length(min: 1) ]
     #[Assert\Type(

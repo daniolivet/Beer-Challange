@@ -6,6 +6,12 @@ use App\Beers\Domain\Interface\IBeersExceptionHandler;
 
 final class BeersExceptionHandler implements IBeersExceptionHandler {
 
+    /**
+     * Handle BeersException & BeersNotFoundException
+     * 
+     * @param \RuntimeException $exception
+     * @return array
+     */
     public function beersExceptionHandle( \RuntimeException $exception ) : array
     {
         if ( method_exists( $exception::class, 'getExceptionData' ) ) {
