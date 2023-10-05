@@ -29,13 +29,13 @@ final class PunkApiRepository implements IPunkApiRepository
         $response     = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers?food=$food" );
         $statusCode   = $response->getStatusCode();
         $responseData = $response->toArray( false );
+        
+        if ( empty( $responseData ) ) {
+            throw new BeersNotFoundException();
+        }
 
         if ( Response::HTTP_OK !== $statusCode ) {
             throw new BeersException( $responseData, $statusCode );
-        }
-
-        if ( empty( $responseData ) ) {
-            throw new BeersNotFoundException();
         }
 
         return $responseData;
@@ -56,13 +56,14 @@ final class PunkApiRepository implements IPunkApiRepository
         $statusCode   = $response->getStatusCode();
         $responseData = $response->toArray( false );
 
+        if ( empty( $responseData ) ) {
+            throw new BeersNotFoundException();
+        }
+        
         if ( Response::HTTP_OK !== $statusCode ) {
             throw new BeersException( $responseData, $statusCode );
         }
 
-        if ( empty( $responseData ) ) {
-            throw new BeersNotFoundException();
-        }
 
         return $responseData;
     }
