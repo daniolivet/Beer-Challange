@@ -3,7 +3,7 @@
 namespace App\Beers\Domain\Interface;
 
 interface IPunkApiRepository {
-    public function getBeerByFood( string $food );
+    public function getBeerByFood( string $food ) : array;
 
-    public function getBeerById( int $id );
+    public function getBeerById( int $id ) : array;
 }
