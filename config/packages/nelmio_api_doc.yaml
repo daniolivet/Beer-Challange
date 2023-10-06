@@ -5,7 +5,7 @@ nelmio_api_doc:
             description: The Beer Matcher API is a powerful tool for beer enthusiasts and food lovers alike. It provides access to a vast selection of beers, sourced from the PunkApi database, and allows users to discover the perfect beer pairings for their favorite dishes.
             version: 1.0.0
         paths:
-          /api/beers/filterByFood?food={ame}:
+          /api/beers/filterByFood?food={name}:
             get:
                 tags:
                  - Beers
@@ -21,8 +21,25 @@ nelmio_api_doc:
                      type: string
                      example: cheese
                 responses:
-                 '200':
-                   description: Succesfull
+                  '200':
+                    description: Beers found!
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/BeersFound'
+                  '404':
+                    description: Beers not found!
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/BeersNotFound'
+                  '400':
+                    description: Food param don't exists
+                    content:
+                      application/json:
+                        schema:
+                          allOf:
+                            - $ref: '#/components/schemas/BadParams'
 
           /api/beers/{id}:
             get:
@@ -41,10 +58,103 @@ nelmio_api_doc:
                      format: int64
                      example: 1
                 responses:
-                 '200':
-                   description: Succesfull
-        
-            
+                  '200':
+                    description: Beers found!
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/BeersFound'   
+                  '404':
+                    description: Beers not found!
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/BeersNotFound'
+        components:
+          schemas:
+            BeersFound:
+              type: object
+              properties:
+                response:
+                  type: boolean
+                  description: Indicates if the request was successful or not.
+                  example: true
+                message:
+                  type: string
+                  description: A message describing the result of the operation.
+                  example: "Beers successfully found!"       
+                data:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Beer'
+              required:
+                - response
+                - message
+                - data 
+
+            BeersNotFound:
+              type: object
+              properties:
+                response:
+                  type: boolean
+                  description: Indicates if the request was successful or not.
+                  example: false
+                message:
+                  type: string
+                  description: A message describing the result of the operation.
+                  example: "No beers found."  
+              required:
+                - response
+                - message
+
+            BadParams:
+              type: object
+              properties:
+                response:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: "Bad request."
+                errors:
+                  type: object
+                  properties:
+                    food:
+                      type: string
+                      example: "The param food is required."
+              required:
+                - response
+                - message
+                - errors
+
+            Beer:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: The unique identifier of the beer.
+                  example: 16
+                name:
+                  type: string
+                  description: The name of the beer.
+                  example: "Libertine Porter"
+                tagline:
+                  type: string
+                  description: The tagline for the beer.
+                  example: "Dry-Hopped Aggressive Porter."
+                first_brewed:
+                  type: string
+                  description: The first brewed date of the beer.
+                  example: "01/2012"
+                description:
+                  type: string
+                  description: A description of the beer.
+                  example: "An avalanche of cross-continental hop varieties..."
+                image:
+                  type: string
+                  format: uri
+                  description: The URL to the image of the beer.
+                  example: "https://images.punkapi.com/v2/16.png"
     areas:
         path_patterns: # an array of regexps (document only routes under /api, except /api/doc)
             - ^/api(?!/doc$)

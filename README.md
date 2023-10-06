@@ -6,5 +6,5 @@
 - [x] Debe estar construida en Arquitectura Hexagonal y DDD
 - [x] La aplicación debe cumplir los estandares PSR-2
 - [x] Se deben construir test unitarios sin atacar al API ( Mockear PunkAPI )
-- [ ] Construir documentacion del API mediante OpenAPI. Puedes usar NelmioAPIBundle u otra librería para ello.
+- [x] Construir documentacion del API mediante OpenAPI. Puedes usar NelmioAPIBundle u otra librería para ello.
 - [x] Cachear las peticiones a PunkAPI temporalmente mediante FileSystem o Redis
