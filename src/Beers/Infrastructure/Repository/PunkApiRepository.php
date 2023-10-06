@@ -27,13 +27,13 @@ final class PunkApiRepository implements IPunkApiRepository
      * @throws \App\Beers\Domain\Exceptions\BeersNotFoundException
      * @return array
      */
-    public function getBeerByFood( string $food ): array
+    public function getBeerByFood( string $food, bool $useCache = true ): array
     {
 
         $cacheKey      = "beers_by_food_$food";
         $cacheResponse = $this->cache->getDataCached( $cacheKey );
 
-        if ( ! empty( $cacheResponse ) ) {
+        if ( ! empty( $cacheResponse ) && $useCache ) {
             return $cacheResponse;
         }
 
@@ -49,7 +49,9 @@ final class PunkApiRepository implements IPunkApiRepository
             throw new BeersException( $responseData, $statusCode );
         }
 
-        $this->cache->setDataInCache( $responseData );
+        if( $useCache ) {
+            $this->cache->setDataInCache( $cacheKey, $responseData );
+        }
 
         return $responseData;
     }
@@ -62,12 +64,12 @@ final class PunkApiRepository implements IPunkApiRepository
      * @throws \App\Beers\Domain\Exceptions\BeersNotFoundException
      * @return array
      */
-    public function getBeerById( int $id ): array
+    public function getBeerById( int $id, bool $useCache = true ): array
     {
         $cacheKey      = "beers_by_id_$id";
         $cacheResponse = $this->cache->getDataCached( $cacheKey );
 
-        if ( ! empty( $cacheResponse ) ) {
+        if ( ! empty( $cacheResponse ) && $useCache ) {
             return $cacheResponse;
         }
 
@@ -83,7 +85,9 @@ final class PunkApiRepository implements IPunkApiRepository
             throw new BeersException( $responseData, $statusCode );
         }
 
-        $this->cache->setDataInCache( $responseData );
+        if( $useCache ) {
+            $this->cache->setDataInCache( $cacheKey, $responseData );
+        }
 
         return $responseData;
     }

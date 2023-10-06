@@ -3,6 +3,8 @@
 namespace App\Tests\Unit\Infrastructure\Repository;
 
 use App\Beers\Domain\Exceptions\BeersException;
+use App\Beers\Infrastructure\CacheFileSystem;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -167,10 +169,15 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $httpClient   = new MockHttpClient( [ 
             new MockResponse( json_encode( $dataExpected ), [ 'http_code' => Response::HTTP_OK ] ),
         ] );
-        $repository   = new PunkApiRepository( $httpClient );
+        $repository   = new PunkApiRepository( 
+            $httpClient, 
+            new CacheFileSystem(
+                new FilesystemAdapter
+            ) 
+        );
 
         // Act
-        $result = $repository->getBeerByFood( 'cheese' );
+        $result = $repository->getBeerByFood( 'cheese', false );
 
         // Assert
         $this->assertNotEmpty( $result );
@@ -183,7 +190,12 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $httpClient = new MockHttpClient( [ 
             new MockResponse( json_encode( [] ), [ 'http_code' => Response::HTTP_NOT_FOUND ] ),
         ] );
-        $repository = new PunkApiRepository( $httpClient );
+        $repository = new PunkApiRepository(
+            $httpClient,
+            new CacheFileSystem(
+                new FilesystemAdapter
+            )
+        );
 
         // Act
         $this->expectException( BeersNotFoundException::class);
@@ -191,7 +203,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $this->expectExceptionCode( 404 );
 
         // Assert
-        $repository->getBeerByFood( 'queso' );
+        $repository->getBeerByFood( 'queso', false );
     }
 
     public function testShouldThrowBeersExceptionInFilterByFood()
@@ -213,11 +225,16 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $httpClient   = new MockHttpClient( [ 
             new MockResponse( json_encode( $dataExpected ), [ 'http_code' => Response::HTTP_BAD_REQUEST ] ),
         ] );
-        $repository   = new PunkApiRepository( $httpClient );
+        $repository   = new PunkApiRepository(
+            $httpClient,
+            new CacheFileSystem(
+                new FilesystemAdapter
+            )
+        );
 
         try {
             // Act      
-            $repository->getBeerByFood( '' );
+            $repository->getBeerByFood( '', false );
             
         } catch ( BeersException $e ) {
             // Assert 
@@ -240,11 +257,16 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $httpClient           = new MockHttpClient( [ 
             new MockResponse( json_encode( $dataExpected ), [ 'http_code' => Response::HTTP_NOT_FOUND ] ),
         ] );
-        $repository           = new PunkApiRepository( $httpClient );
+        $repository           = new PunkApiRepository(
+            $httpClient,
+            new CacheFileSystem(
+                new FilesystemAdapter
+            )
+        );
 
         try {
             // Act      
-            $repository->getBeerByFood( 'cheese' );
+            $repository->getBeerByFood( 'cheese', false );
 
         } catch ( BeersException $e ) {
             // Assert 
@@ -336,7 +358,12 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $httpClient   = new MockHttpClient( [ 
             new MockResponse( json_encode( $dataExpected ), [ 'http_code' => Response::HTTP_OK ] ),
         ] );
-        $repository   = new PunkApiRepository( $httpClient );
+        $repository   = new PunkApiRepository(
+            $httpClient,
+            new CacheFileSystem(
+                new FilesystemAdapter
+            )
+        );
 
         // Act
         $result = $repository->getBeerById( 2 );
@@ -352,7 +379,12 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $httpClient = new MockHttpClient( [ 
             new MockResponse( json_encode( [] ), [ 'http_code' => Response::HTTP_NOT_FOUND ] ),
         ] );
-        $repository = new PunkApiRepository( $httpClient );
+        $repository = new PunkApiRepository(
+            $httpClient,
+            new CacheFileSystem(
+                new FilesystemAdapter
+            )
+        );
 
         // Assert
         $this->expectException( BeersNotFoundException::class);
@@ -374,7 +406,12 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $httpClient   = new MockHttpClient( [ 
             new MockResponse( json_encode( $dataExpected ), [ 'http_code' => Response::HTTP_NOT_FOUND ] ),
         ] );
-        $repository   = new PunkApiRepository( $httpClient );
+        $repository   = new PunkApiRepository(
+            $httpClient,
+            new CacheFileSystem(
+                new FilesystemAdapter
+            )
+        );
 
         try {
             // Act

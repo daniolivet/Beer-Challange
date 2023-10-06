@@ -23,7 +23,7 @@ final class CacheFileSystem implements ICacheFileSystem {
      * @return array
      */
     public function getDataCached( string $cacheKey ): array {
-        $this->cacheItem = $this->cache->getItem( $cacheKey );
+        $this->setCacheItem( $cacheKey );
 
         if ( $this->cacheItem->isHit() ) {
             return $this->cacheItem->get();
@@ -38,10 +38,26 @@ final class CacheFileSystem implements ICacheFileSystem {
      * @param array $responseData
      * @return bool
      */
-    public function setDataInCache( array $responseData ): bool {
+    public function setDataInCache( string $cacheKey, array $responseData ): bool {
+        if( empty($this->cacheItem) ) {
+            $this->setCacheItem($cacheKey);
+        }
+        
         $this->cacheItem->set( $responseData );
         $this->cacheItem->expiresAfter( self::EXPIRE_TIME );
         
         return $this->cache->save( $this->cacheItem );
+    }
+
+    /**
+     * CacheItem Setter
+     * 
+     * @param string $cacheKey
+     * @return \Symfony\Component\Cache\CacheItem
+     */
+    public function setCacheItem( string $cacheKey ): CacheItem {
+        $this->cacheItem = $this->cache->getItem( $cacheKey );
+
+        return $this->cacheItem;
     }
 }
