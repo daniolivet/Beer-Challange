@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Application;
+namespace App\Tests\Unit\Beers\Application;
 
 use App\Beers\Application\GetBeerByIdUseCase;
 use App\Beers\Domain\Exceptions\BeersException;

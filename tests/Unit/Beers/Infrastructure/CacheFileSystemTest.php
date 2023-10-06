@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Infrastructure;
+namespace App\Tests\Unit\Beers\Infrastructure;
 
 use App\Beers\Infrastructure\CacheFileSystem;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

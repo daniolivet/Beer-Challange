@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Domain\Exceptions;
+namespace App\Tests\Unit\Beers\Domain\Exceptions;
 
 use App\Beers\Domain\Exceptions\BeersException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

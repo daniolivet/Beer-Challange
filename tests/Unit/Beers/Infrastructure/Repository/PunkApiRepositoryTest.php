@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Infrastructure\Repository;
+namespace App\Tests\Unit\Beers\Infrastructure\Repository;
 
 use App\Beers\Domain\Exceptions\BeersException;
 use App\Beers\Infrastructure\CacheFileSystem;

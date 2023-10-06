@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Infrastructure;
+namespace App\Tests\Unit\Beers\Infrastructure;
 
 use App\Beers\Domain\Exceptions\BeersException;
 use App\Beers\Domain\Exceptions\BeersNotFoundException;
