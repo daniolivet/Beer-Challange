@@ -7,4 +7,4 @@
 - [x] La aplicación debe cumplir los estandares PSR-2
 - [ ] Se deben construir test unitarios sin atacar al API ( Mockear PunkAPI )
 - [ ] Construir documentacion del API mediante OpenAPI. Puedes usar NelmioAPIBundle u otra librería para ello.
-- [ ] Cachear las peticiones a PunkAPI temporalmente mediante FileSystem o Redis
+- [x] Cachear las peticiones a PunkAPI temporalmente mediante FileSystem o Redis

@@ -2,9 +2,11 @@
 
 namespace App\Beers\Infrastructure\Repository;
 
-use App\Beers\Domain\Interface\IPunkApiRepository;
+use App\Beers\Infrastructure\CacheFileSystem;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use App\Beers\Domain\Exceptions\BeersException;
+use App\Beers\Domain\Interface\IPunkApiRepository;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Beers\Domain\Exceptions\BeersNotFoundException;
 
@@ -12,7 +14,8 @@ final class PunkApiRepository implements IPunkApiRepository
 {
 
     public function __construct(
-        private readonly HttpClientInterface $httpClient
+        private readonly HttpClientInterface $httpClient,
+        private readonly CacheFileSystem $cache
     ) {
     }
 
@@ -24,12 +27,20 @@ final class PunkApiRepository implements IPunkApiRepository
      * @throws \App\Beers\Domain\Exceptions\BeersNotFoundException
      * @return array
      */
-    public function getBeerByFood( string $food ) : array
+    public function getBeerByFood( string $food ): array
     {
+
+        $cacheKey      = "beers_by_food_$food";
+        $cacheResponse = $this->cache->getDataCached( $cacheKey );
+
+        if ( ! empty( $cacheResponse ) ) {
+            return $cacheResponse;
+        }
+
         $response     = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers?food=$food" );
         $statusCode   = $response->getStatusCode();
         $responseData = $response->toArray( false );
-        
+
         if ( empty( $responseData ) ) {
             throw new BeersNotFoundException();
         }
@@ -37,6 +48,8 @@ final class PunkApiRepository implements IPunkApiRepository
         if ( Response::HTTP_OK !== $statusCode ) {
             throw new BeersException( $responseData, $statusCode );
         }
+
+        $this->cache->setDataInCache( $responseData );
 
         return $responseData;
     }
@@ -49,8 +62,14 @@ final class PunkApiRepository implements IPunkApiRepository
      * @throws \App\Beers\Domain\Exceptions\BeersNotFoundException
      * @return array
      */
-    public function getBeerById( int $id ) : array
+    public function getBeerById( int $id ): array
     {
+        $cacheKey      = "beers_by_id_$id";
+        $cacheResponse = $this->cache->getDataCached( $cacheKey );
+
+        if ( ! empty( $cacheResponse ) ) {
+            return $cacheResponse;
+        }
 
         $response     = $this->httpClient->request( 'GET', $_ENV['PUNK_API_URL'] . "beers/$id" );
         $statusCode   = $response->getStatusCode();
@@ -59,11 +78,12 @@ final class PunkApiRepository implements IPunkApiRepository
         if ( empty( $responseData ) ) {
             throw new BeersNotFoundException();
         }
-        
+
         if ( Response::HTTP_OK !== $statusCode ) {
             throw new BeersException( $responseData, $statusCode );
         }
 
+        $this->cache->setDataInCache( $responseData );
 
         return $responseData;
     }

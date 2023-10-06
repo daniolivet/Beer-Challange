@@ -26,3 +26,5 @@ services:
     App\Beers\Infrastructure\Controller\:
         resource: '../src/Beers/Infrastructure/Controller/'
         tags: ['controller.service_arguments']
+    
+    Symfony\Component\Cache\Adapter\FilesystemAdapter: ~
