@@ -12,7 +12,6 @@ final class BeersExceptionHandlerTest extends KernelTestCase
 
     public function testShouldReturnDataException()
     {
-
         // Arrange
         $dataExpected = [ 
             'code'    => 200,

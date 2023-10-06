@@ -112,7 +112,7 @@ final class GetBeerByIdUseCaseTest extends KernelTestCase
 
         $useCase = new GetBeerByIdUseCase( $punkApiRepositoryMock, $beersExceptionHandlerMock );
 
-        // Arrage
+        // Act
         $result = $useCase->__invoke( 2 );
 
         // Assert
@@ -123,7 +123,7 @@ final class GetBeerByIdUseCaseTest extends KernelTestCase
 
     public function testShouldGetNotFoundResponse()
     {
-
+        // Arrage
         $dataPunkApiExpected = [ 
             "statusCode" => 404,
             "error"      => "Not Found",
@@ -148,7 +148,7 @@ final class GetBeerByIdUseCaseTest extends KernelTestCase
 
         $useCase = new GetBeerByIdUseCase( $punkApiRepositoryMock, new BeersExceptionHandler() );
 
-        // Arrage
+        // Act
         $result = $useCase->__invoke( $beerId );
 
         // Assert

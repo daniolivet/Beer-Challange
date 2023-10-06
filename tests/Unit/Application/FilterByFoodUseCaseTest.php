@@ -197,7 +197,7 @@ final class FilterByFoodUseCaseTest extends KernelTestCase
 
         $useCase = new FilterByFoodUseCase( $punkApiRepositoryMock, $beersExceptionHandlerMock );
 
-        // Arrage
+        // Act
         $result = $useCase->__invoke( $foodName );
 
         // Assert
@@ -242,7 +242,7 @@ final class FilterByFoodUseCaseTest extends KernelTestCase
             new BeersExceptionHandler()
         );
 
-        // Arrage
+        // Act
         $result = $useCase->__invoke( '' );
 
         // Assert
@@ -272,7 +272,7 @@ final class FilterByFoodUseCaseTest extends KernelTestCase
             new BeersExceptionHandler()
         );
 
-        // Arrage
+        // Act
         $result = $useCase->__invoke( 'queso' );
 
         // Assert

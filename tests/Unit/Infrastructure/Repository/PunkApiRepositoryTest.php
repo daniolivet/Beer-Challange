@@ -15,7 +15,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
 
     public function testShouldGetAllBeersFilterByFood()
     {
-        // Assert
+        // Arrange
         $dataExpected = [ 
             [ 
                 "id"                => 2,
@@ -169,7 +169,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
         ] );
         $repository   = new PunkApiRepository( $httpClient );
 
-        // Arrage
+        // Act
         $result = $repository->getBeerByFood( 'cheese' );
 
         // Assert
@@ -179,24 +179,24 @@ final class PunkApiRepositoryTest extends KernelTestCase
 
     public function testShouldThrowBeersNotFoundExceptionInFilterByFood()
     {
-        // Assert
+        // Arrange
         $httpClient = new MockHttpClient( [ 
             new MockResponse( json_encode( [] ), [ 'http_code' => Response::HTTP_NOT_FOUND ] ),
         ] );
         $repository = new PunkApiRepository( $httpClient );
 
-        // Assert
+        // Act
         $this->expectException( BeersNotFoundException::class);
         $this->expectExceptionMessage( "No beers found." );
         $this->expectExceptionCode( 404 );
 
-        // Arrage
+        // Assert
         $repository->getBeerByFood( 'queso' );
     }
 
     public function testShouldThrowBeersExceptionInFilterByFood()
     {
-        // Assert
+        // Arrange
         $dataExpected = [ 
             "statusCode" => 400,
             "error"      => "Bad Request",
@@ -216,7 +216,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $repository   = new PunkApiRepository( $httpClient );
 
         try {
-            // Arrage      
+            // Act      
             $repository->getBeerByFood( '' );
             
         } catch ( BeersException $e ) {
@@ -230,7 +230,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
 
     public function testShouldGetJsonResponseWithWrongUrl()
     {
-        // Assert
+        // Arrange
         $dataExpected         = [ 
             "statusCode" => 404,
             "error"      => "Not Found",
@@ -243,7 +243,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $repository           = new PunkApiRepository( $httpClient );
 
         try {
-            // Arrage      
+            // Act      
             $repository->getBeerByFood( 'cheese' );
 
         } catch ( BeersException $e ) {
@@ -257,7 +257,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
     public function testShouldGetBeerById()
     {
 
-        // Assert
+        // Arrange
         $dataExpected = [ 
             [ 
                 "id"                => 2,
@@ -338,7 +338,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
         ] );
         $repository   = new PunkApiRepository( $httpClient );
 
-        // Arrage
+        // Act
         $result = $repository->getBeerById( 2 );
 
         // Assert
@@ -348,7 +348,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
 
     public function testShouldThrowBeersNotFoundExceptionInGetBeerById()
     {
-        // Assert
+        // Arrange
         $httpClient = new MockHttpClient( [ 
             new MockResponse( json_encode( [] ), [ 'http_code' => Response::HTTP_NOT_FOUND ] ),
         ] );
@@ -359,13 +359,13 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $this->expectExceptionMessage( "No beers found." );
         $this->expectExceptionCode( 404 );
 
-        // Arrage
+        // Act
         $repository->getBeerById( 999 );
     }
 
     public function testShouldReturnNotFoundMessageInGetBeerById()
     {
-        // Assert
+        // Arrange
         $dataExpected = [ 
             "statusCode" => 404,
             "error"      => "Not Found",
@@ -377,7 +377,7 @@ final class PunkApiRepositoryTest extends KernelTestCase
         $repository   = new PunkApiRepository( $httpClient );
 
         try {
-            // Arrage
+            // Act
             $repository->getBeerById( 999 );
 
         }catch( BeersException $e ) {
